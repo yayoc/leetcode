@@ -8,16 +8,16 @@
 
 // Because nums[0] + nums[1] = 2 + 7 = 9,
 // return [0, 1].
+use std::collections::HashMap;
 
 impl Solution {
     pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
-        for (i, item) in nums.iter().enumerate() {
-            let res = target - item;
-            for (v, vitem)  in nums.iter().enumerate() {
-                let ret = res - vitem;
-                if ret == 0 && i != v {
-                    return vec![i as i32, v as i32];
-                }
+        let mut hash = HashMap::new();
+        for (i, num) in nums.iter().enumerate() {
+            if hash.contains_key(num) {
+                return vec![hash[num] as i32, i as i32];
+            } else {
+                hash.insert(target - num, i);
             }
         }
         vec![]
