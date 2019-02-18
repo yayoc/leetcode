@@ -8,10 +8,16 @@
 
 // Because nums[0] + nums[1] = 2 + 7 = 9,
 // return [0, 1].
+pub struct Solution1;
+
 use std::collections::HashMap;
 
-impl Solution {
-    pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+pub trait Solution {
+    fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32>;
+}
+
+impl Solution for Solution1 {
+    fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
         let mut hash = HashMap::new();
         for (i, num) in nums.iter().enumerate() {
             if hash.contains_key(num) {
@@ -21,5 +27,15 @@ impl Solution {
             }
         }
         vec![]
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_1() {
+        assert_eq!(vec![0, 1], Solution1::two_sum(vec![2, 7, 11, 15], 9));
+        assert_eq!(vec![1, 2], Solution1::two_sum(vec![3, 2, 4], 6));
     }
 }
