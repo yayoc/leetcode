@@ -46,39 +46,47 @@
 // Output: 1994
 // Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
 
-impl Solution {
-        pub fn roman_to_int(s: String) -> i32 {
+pub struct Solution1;
+
+pub trait Solution {
+    fn roman_to_int(s: String) -> i32;
+}
+
+impl Solution for Solution1 {
+    fn roman_to_int(s: String) -> i32 {
         let mut total = 0;
         for (i, c) in s.chars().enumerate() {
-            if c == 'V' || c == 'X' {
-                match s.chars().nth(i - 1) {
-                    Some(t) => {
-                        if t == 'I' {
-                            total -= 1 * 2;
-                        }
-                    },
-                    None => {}
-                };
-            }
-            if c == 'L' || c == 'C' {
-                match s.chars().nth(i - 1) {
-                    Some(t) => {
-                        if t == 'X' {
-                            total -= 10 * 2;
-                        }
-                    },
-                    None => {}
-                };
-            }
-            if c == 'D' || c == 'M' {
-                match s.chars().nth(i - 1) {
-                    Some(t) => {
-                        if t == 'C' {
-                            total -= 100 * 2;
-                        }
-                    },
-                    None => {}
-                }; 
+            if i > 0 {
+                if c == 'V' || c == 'X' {
+                    match s.chars().nth(i - 1) {
+                        Some(t) => {
+                            if t == 'I' {
+                                total -= 1 * 2;
+                            }
+                        },
+                        None => {}
+                    };
+                }
+                if c == 'L' || c == 'C' {
+                    match s.chars().nth(i - 1) {
+                        Some(t) => {
+                            if t == 'X' {
+                                total -= 10 * 2;
+                            }
+                        },
+                        None => {}
+                    };
+                }
+                if c == 'D' || c == 'M' {
+                    match s.chars().nth(i - 1) {
+                        Some(t) => {
+                            if t == 'C' {
+                                total -= 100 * 2;
+                            }
+                        },
+                        None => {}
+                    }; 
+                }
             }
             total += match c {
                 'I' => 1,
@@ -94,3 +102,16 @@ impl Solution {
         total
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_roman_to_integer() {
+        assert_eq!(3, Solution1::roman_to_int(String::from("III")));
+        assert_eq!(4, Solution1::roman_to_int(String::from("IV")));
+        assert_eq!(58, Solution1::roman_to_int(String::from("LVIII")));
+        assert_eq!(1994, Solution1::roman_to_int(String::from("MCMXCIV")));
+    }
+}
+
