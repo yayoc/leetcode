@@ -21,8 +21,14 @@
 // 
 // Coud you solve it without converting the integer to a string?
 
-impl Solution {
-    pub fn is_palindrome(x: i32) -> bool {
+pub struct Solution1;
+
+pub trait Solution {
+    fn is_palindrome(x: i32) -> bool;
+}
+
+impl Solution for Solution1 {
+    fn is_palindrome(x: i32) -> bool {
         if x.is_negative() {
             return false;
         }
@@ -35,3 +41,15 @@ impl Solution {
         x == rev
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_is_palindrome() {
+        assert_eq!(true, Solution1::is_palindrome(121));
+        assert_eq!(false, Solution1::is_palindrome(123));
+        assert_eq!(false, Solution1::is_palindrome(-123));
+    }
+}
+
