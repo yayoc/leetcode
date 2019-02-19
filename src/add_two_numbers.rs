@@ -24,9 +24,14 @@ impl ListNode {
     }
   }
 }
+pub struct Solution1;
 
-impl Solution {
-    pub fn add_two_numbers(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
+pub trait Solution {
+    fn add_two_numbers(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> Option<Box<ListNode>>;
+}
+
+impl Solution for Solution1 {
+    fn add_two_numbers(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> Option<Box<ListNode>> {
         let mut root = Box::new(ListNode::new(0));
         let (mut one, mut two, mut carry) = (l1, l2, 0);
         let mut x: i32;
@@ -52,9 +57,29 @@ impl Solution {
                 current = (*(*(current as *mut ListNode)).next.as_mut().unwrap()).as_mut();
             }
         }
-        if (carry > 0) {
+        if carry > 0 {
             current.next = Some(Box::new(ListNode::new(carry)));
         }
         root.next
+    }
+}
+
+pub fn to_list(vec: Vec<i32>) -> Option<Box<ListNode>> {
+    let mut current = None;
+    for &v in vec.iter().rev() {
+        let mut node = ListNode::new(v);
+        node.next = current;
+        current = Some(Box::new(node));
+    }
+    current
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_add_two_numbers() {
+        assert_eq!(to_list(vec![7, 0, 8]), Solution1::add_two_numbers(to_list(vec![2, 4, 3]), to_list(vec![5, 6, 4])));
+        assert_eq!(to_list(vec![0]), Solution1::add_two_numbers(to_list(vec![0]), to_list(vec![0])));
     }
 }
